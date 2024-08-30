@@ -23,15 +23,18 @@ if __name__ == '__main__':
     
 
     # initiate model and hyperparameters and set seed
-    model = LSTMClassifier()
     hyperparameters = Hyperparameters(seed=47,
-                                      n_components=16, 
+                                      n_components=16,
+                                      lstm_hidden_size=8,
                                       split_ratio=0.1, 
                                       num_epochs=100, 
                                       batch_size=16, 
                                       loss_fn=BCEWithLogitsLoss(),
-                                      optimizer=Adam(model.parameters()),
+                                      optimizer=Adam,
                                       threshold=0.5)
+    model = LSTMClassifier(hyperparameters.n_components, hyperparameters.lstm_hidden_size)
+    hyperparameters.optimizer = hyperparameters.optimizer(model.parameters())
+
     np.random.seed(hyperparameters.seed)
     random.seed(hyperparameters.seed)
     torch.manual_seed(hyperparameters.seed)
@@ -46,14 +49,6 @@ if __name__ == '__main__':
         hyperparameters.split_ratio, 
         hyperparameters.seed, 
         hyperparameters.batch_size)
-    
-    # TODO: delete
-    preprocessor = Preprocessor(directory)
-    preprocessor.combine_data()
-    preprocessor.normalize_data()
-    preprocessor.reduce_dimensionality()
-    trainloader, validateloader = preprocessor.split_data()
-    
     
     # train and validate model
     runner = Runner(model, trainloader, validateloader, hyperparameters)

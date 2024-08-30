@@ -2,10 +2,10 @@ class Predictor():
     def __init__(self):
         pass
     
-    def get_avg_loss_for_epoch(self, inferer, dataloader):
+    def get_avg_loss_for_epoch(self, propagator, dataloader):
         running_loss = 0
         for idx, (features, labels) in enumerate(dataloader):
-            loss = inferer(features, labels)
+            loss = propagator(features, labels)
             running_loss += loss
         
         return running_loss / len(dataloader.dataset)
