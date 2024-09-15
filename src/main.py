@@ -9,7 +9,8 @@ from model import LSTMClassifier
 from hyperparameters import Hyperparameters
 from torch.nn import BCEWithLogitsLoss
 from torch.optim import Adam
-from train_validate import Runner
+from engine import Runner
+
 
 if __name__ == '__main__':    
     parser = argparse.ArgumentParser()
@@ -52,7 +53,7 @@ if __name__ == '__main__':
     
     # train and validate model
     runner = Runner(model, trainloader, validateloader, hyperparameters)
-    train_losses, validate_losses = runner.run()
+    train_losses, validate_losses = runner.run_all()
     
     # make inference on test data
     test_preprocessor = Preprocessor(test_data_dir)
@@ -64,8 +65,5 @@ if __name__ == '__main__':
     
     # save inferences in csv tab delimited file
     inferences = pd.DataFrame(inference_logits > hyperparameters.threshold)
-    inferences.to_csv(inferences_dir)
-    
-    
-    
+    inferences.to_csv(f"{inferences_dir}_inferences.csv")
     

@@ -39,7 +39,7 @@ class Preprocessor():
             fname = os.path.join(self.dir, f)
             
             df = pd.read_csv(fname, sep='\t', header=2)
-            self.processed_data.append(df.iloc[:372, 1:].to_numpy())
+            self.processed_data.append(df.iloc[:372, 1:].to_numpy('float32'))
             
             label = self.classification[
                         pd.read_csv(fname, nrows=1)
@@ -48,7 +48,7 @@ class Preprocessor():
             self.labels.append(label)
         
         self.processed_data = np.array(self.processed_data)
-        self.labels = np.array(self.labels)
+        self.labels = np.array(self.labels).reshape(-1,1)
 
     def normalize_data(self):
         mean = self.processed_data.mean(axis=1)

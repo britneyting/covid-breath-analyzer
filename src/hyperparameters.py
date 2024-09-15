@@ -1,7 +1,7 @@
 class Hyperparameters():
     def __init__(self, seed,
-                 n_components, split_ratio, 
-                 num_epochs, batch_size, 
+                 n_components, lstm_hidden_size,
+                 split_ratio, num_epochs, batch_size, 
                  loss_fn, optimizer,
                  threshold):
         
@@ -9,6 +9,9 @@ class Hyperparameters():
         
         # desired components in reduced space
         self.n_components = n_components
+        
+        # number of hidden units in LSTM
+        self.lstm_hidden_size = lstm_hidden_size
         
         # train-validation data split ratio
         self.split_ratio = split_ratio

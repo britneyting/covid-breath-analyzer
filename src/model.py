@@ -10,9 +10,10 @@ class LSTMClassifier(nn.Module):
     def forward(self, x):
         '''
         Input:
-        x.shape = (batch_size, 370, n_components)
-        Each batch has n_components features with a sequence length of 370.
+        x.shape = (batch_size, 372, n_components)
+        Each batch has n_components features with a sequence length of 372.
         '''
-        out, _ = self.lstm(x) # shape: (batch_size, 370, 2 * hidden_size)
-        out = self.linear(out)
+        out, _ = self.lstm(x) # out.shape: (batch_size, 372, 2 * hidden_size)
+        # TODO: we want shape: (batch_size, 1)
+        out = self.linear(out) # out.shape: (batch_size, 372, 1)
         return out
